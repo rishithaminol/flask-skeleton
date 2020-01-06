@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 
 import os, sys
-# Import and set environment variables for the project
 from dotenv import load_dotenv, dotenv_values
 load_dotenv()
 
 from src import create_app
-
-
-print("module search path:", sys.path)
-
 
 app = create_app()
 
