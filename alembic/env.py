@@ -25,8 +25,8 @@ from dotenv import load_dotenv, dotenv_values
 
 load_dotenv()
 
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
-sys.path.append(parent_dir)
+# parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+sys.path.append(os.getcwd())
 from src.db import Base
 target_metadata = Base.metadata
 config.set_main_option('sqlalchemy.url', os.getenv('DATA_SOURCE'))
