@@ -1,0 +1,13 @@
+__pycache__
+*.sock
+venv/**
+*.db
+*.log
+node_modules/
+package-lock.json
+
+# Editor specific
+*.sublime-*
+*.code-workspace
+.vscode/
+
