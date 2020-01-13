@@ -10,7 +10,7 @@ def gen_user_pass_hash(password):
 # this function is called on every request
 def get_user_data(user_name):
 	x = db_session.query(UserData).\
-			filter(UserData.user_name == user_name).first()
+			filter(UserData.name == user_name).first()
 	return x
 
 # Pay deep attention about this function in order to avoid
@@ -21,14 +21,14 @@ def get_user_data(user_name):
 #	True.
 def check_user_credentials(user_name, pass_hash):
 	x = db_session.query(UserData).\
-				filter(UserData.user_name == user_name).\
+				filter(UserData.name == user_name).\
 				filter(UserData.password == pass_hash).first()
 
 	# No user data
 	if x is None:
 		return False
 
-	if x.user_name == user_name and x.password == pass_hash:
+	if x.name == user_name and x.password == pass_hash:
 		return True
 
 	return False

@@ -1,8 +1,9 @@
 import os
 
 from flask import Flask, render_template, send_from_directory
-from .login_manager import init_login
+from .login_manager import init_login, access_privilage
 from .db import db_session
+from .user_login import user_login
 
 
 def create_app(test_config=None):
@@ -22,11 +23,15 @@ def create_app(test_config=None):
 
     init_login(app)
 
+    ### Blueprints
+    app.register_blueprint(user_login)
+
     # Register all routes before return
     # a simple page that says hello
     @app.route('/')
+    @access_privilage
     def hello():
-        return render_template('welcome.html')
+        return render_template('index.html')
 
     @app.route('/public/<path:filepath>')
     def public(filepath):
