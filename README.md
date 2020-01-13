@@ -16,3 +16,7 @@ In order to keep current program live we have to keep some columns if we are goi
 Because current program will not work if we suddenly make database changes.
 For errorless strategy we recommend first create a separate nullable column (If we are going to change colum name) and then develop your application using that column name ignoring previous name the column had.
 Secondly copy none-existing data to the new column and quickly start new code.
+
+Frontend static serving
+=======================
+In the frontend we map `/static` directory to `src/public`

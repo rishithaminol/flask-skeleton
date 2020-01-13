@@ -49,4 +49,4 @@ def init_login(app):
         if current_user.is_authenticated:
             return redirect('/')
 
-        return render_template('user_login.html')
+        return render_template('login.html')

@@ -17,4 +17,4 @@ for key_, val_ in dotenv_values().items():
 	else:
 		app.config[key_] = val_
 
-app.run(host='0.0.0.0')
+app.run(port=os.getenv('PORT'))
