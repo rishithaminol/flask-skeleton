@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, \
-                   request, jsonify, session, redirect
+                   request, jsonify, session, redirect, url_for
 from flask_login import login_required, login_user, logout_user, current_user
 from .login_manager import access_privilage, User
 from .core import gen_user_pass_hash, check_user_credentials
@@ -25,4 +25,4 @@ def sign_in():
 def sign_out():
     logout_user()
 
-    return redirect('/login')
+    return redirect(url_for('user_login.sign_in', _external=True))

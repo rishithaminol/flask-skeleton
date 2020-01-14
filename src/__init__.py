@@ -35,7 +35,6 @@ def create_app(test_config=None):
 
     @app.route('/public/<path:filepath>')
     def public(filepath):
-        print(filepath)
         return send_from_directory(assets_dir, filepath)
 
     @app.teardown_appcontext
