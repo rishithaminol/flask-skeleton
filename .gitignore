@@ -1,6 +1,6 @@
 __pycache__
 *.sock
-venv/**
+venv-*/**
 *.db
 *.log
 node_modules/
