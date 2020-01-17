@@ -1,0 +1,17 @@
+{
+  "name": "waiter-bot",
+  "version": "0.0.1",
+  "description": "Waiter bot system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "node-sass --source-map true --output-style compressed --watch src/public/scss -o src/public/css",
+    "build-css": "node-sass src/public/scss -o src/public/css"
+  },
+  "author": "Rishitha Minol <rishithaminol@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/rishithaminol/flask-skeleton#readme",
+  "dependencies": {
+    "node-sass": "^4.13.1"
+  }
+}
