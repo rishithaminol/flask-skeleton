@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, send_from_directory
 from .login_manager import init_login, access_privilage
 from .db import db_session
-from .user_login import user_login
+from .routes import user_login
 
 
 def create_app(test_config=None):
