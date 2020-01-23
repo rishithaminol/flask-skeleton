@@ -1,4 +1,5 @@
 import hashlib
+from colored import fg, bg, attr
 
 from .db import db_session, UserData
 
@@ -50,3 +51,6 @@ def change_password(user_name, new_password):
 	dbses.commit()
 
 	return True
+
+def green_output(str_):
+	return "%s%s%s" %(fg(82), str_, attr(0))
