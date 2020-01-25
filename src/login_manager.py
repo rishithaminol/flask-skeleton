@@ -24,6 +24,9 @@ class User(UserMixin):
     def __repr__(self):
         return "%d/%s" % (self.id, self.name)
 
+# This function restricts spcific users based on specific rules
+# if the given user meets the specific requirements, this continues
+#    execution otherwise stops execution
 def access_privilage(func):
     @wraps(func)
     @login_required
