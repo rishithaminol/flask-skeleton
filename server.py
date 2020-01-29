@@ -19,20 +19,12 @@ for key_, val_ in dotenv_values().items():
 		app.config[key_] = val_
 
 print("==================================[Endpoints]=====================================")
-list_ = []
+endpoints_ = {}
 for rule in app.url_map.iter_rules():
-	matched = re.match("^(.*)\..*$", str(rule.endpoint))
+	endpoints_.update({rule.endpoint: {'rule': rule.rule, 'methods': list(rule.methods)}})
 
-	if matched and len(matched.groups()) > 0:
-		master_endpoint = matched.group(1)
-	else:
-		master_endpoint = None
-
-	list_.append({master_endpoint: {'rule': rule.rule, 'methods': list(rule.methods), 'endpoint': rule.endpoint}})
-
-for k in list_:
-	for k1, v1 in k.items():
-		print(green_output(v1['rule']), v1['methods'], green_output(v1['endpoint']))
+for key in sorted(endpoints_.keys()):
+	print(green_output(endpoints_[key]['rule']), endpoints_[key]['methods'], green_output(key))
 print("==================================[Endpoints]=====================================")
 
 app.run(port=os.getenv('PORT'))
