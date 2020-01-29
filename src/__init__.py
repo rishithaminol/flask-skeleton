@@ -30,7 +30,7 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/')
     @access_privilage
-    def hello():
+    def index():
         return render_template('index.html')
 
     @app.route('/public/<path:filepath>')
