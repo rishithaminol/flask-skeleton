@@ -1,14 +1,16 @@
-from flask import request, redirect, render_template
+from flask import request, redirect, render_template, _request_ctx_stack, jsonify
 from flask_login import LoginManager, UserMixin, \
 						login_user, \
 						current_user, login_required
 from functools import wraps
 from .core import check_user_credentials, gen_user_pass_hash, get_user_data
+from .menu_nav import al_separation
 
 # silly user model (create 'current_user' object)
 class User(UserMixin):
     def __init__(self, id_):
         self.malfunction = False
+        self._is_authenticated = True
 
         try:
             x = get_user_data(id_)
@@ -17,9 +19,14 @@ class User(UserMixin):
             self.access_level = x.access_level
         except:
             self.malfunction = True
+            self._is_authenticated = False
 
         if self.malfunction:
             print("====== Malfunction occured =====")
+
+    @property
+    def is_authenticated(self):
+        return self._is_authenticated
 
     def __repr__(self):
         return "%d/%s" % (self.id, self.name)
@@ -31,7 +38,21 @@ def access_privilage(func):
     @wraps(func)
     @login_required
     def decorated_view(*args, **kwargs):
-        return func(*args, **kwargs)
+        found_ = False
+        for i in al_separation:
+            if  ((current_user.access_level in i['access_levels']) or (-1 in i['access_levels'])) \
+                 and (i['endpoint'] == request.endpoint):
+                found_ = True
+                break
+
+        if found_:
+            return func(*args, **kwargs)
+        else:
+            respon_obj = {
+                'status': 401,
+                'message': 'Access level unauthorized'
+            }
+            return jsonify(respon_obj), respon_obj['status']
 
     return decorated_view
 
