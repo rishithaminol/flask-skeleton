@@ -27,4 +27,5 @@ for key in sorted(endpoints_.keys()):
 	print(green_output(endpoints_[key]['rule']), endpoints_[key]['methods'], green_output(key))
 print("==================================[Endpoints]=====================================")
 
-app.run(port=os.getenv('PORT'))
+if __name__ == '__main__':
+	app.run(port=os.getenv('PORT'))

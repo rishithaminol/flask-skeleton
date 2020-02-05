@@ -11,3 +11,4 @@ package-lock.json
 *.code-workspace
 .vscode/
 
+venv/**
