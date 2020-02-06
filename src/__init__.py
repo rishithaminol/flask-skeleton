@@ -7,8 +7,9 @@ from .routes import user_login
 
 
 def create_app(test_config=None):
-    template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-    assets_dir = os.path.join(os.path.dirname(__file__), 'public')
+    real_path = os.path.realpath(__file__)
+    template_dir = os.path.join(os.path.dirname(real_path), 'templates')
+    assets_dir = os.path.join(os.path.dirname(real_path), 'public')
 
     # create and configure the app
     app = Flask(__name__, template_folder=template_dir,
