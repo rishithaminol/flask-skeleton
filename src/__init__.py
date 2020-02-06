@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, send_from_directory
 from .login_manager import init_login, access_privilage
 from .db import db_session
-from .routes import user_login
+from .routes import user_login, app_deployment
 
 
 def create_app(test_config=None):
@@ -26,6 +26,7 @@ def create_app(test_config=None):
 
     ### Blueprints
     app.register_blueprint(user_login)
+    app.register_blueprint(app_deployment)
 
     # Register all routes before return
     # a simple page that says hello
