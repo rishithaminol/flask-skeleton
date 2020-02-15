@@ -1,0 +1,1 @@
+ORGANIZATION_NAME="Flask Skeleton"

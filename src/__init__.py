@@ -10,14 +10,15 @@ def create_app(test_config=None):
     real_path = os.path.realpath(__file__)
     template_dir = os.path.join(os.path.dirname(real_path), 'templates')
     assets_dir = os.path.join(os.path.dirname(real_path), 'public')
+    base_dir = os.path.dirname(real_path) # src - directory
 
     # create and configure the app
     app = Flask(__name__, template_folder=template_dir,
-                            instance_relative_config=True)
+                            instance_path=base_dir)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile('config.py')
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
