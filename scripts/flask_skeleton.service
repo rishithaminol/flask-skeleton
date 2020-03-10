@@ -1,0 +1,13 @@
+[Unit]
+Description=Pgadmin4 Service
+After=network.target
+
+[Service]
+User=pgadmin
+Group=pgadmin
+WorkingDirectory=/opt/pgadmin/pgadmin4/
+ExecStart=/opt/pgadmin/start.sh
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
