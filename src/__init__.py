@@ -25,10 +25,6 @@ def create_app(test_config=None):
 
     init_login(app)
 
-    ### Blueprints
-    app.register_blueprint(user_login)
-    app.register_blueprint(app_deployment)
-
     # Register all routes before return
     # a simple page that says hello
     @app.route('/')

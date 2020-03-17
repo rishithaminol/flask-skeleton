@@ -6,6 +6,7 @@ load_dotenv()
 
 from src import create_app
 from src.core import green_output
+from src.blueprints import load_blueprints
 
 app = create_app()
 
@@ -17,6 +18,9 @@ for key_, val_ in dotenv_values().items():
 		app.config[key_] = eval(val_)
 	else:
 		app.config[key_] = val_
+
+# Loading additional blueprints
+load_blueprints(app)
 
 print("==================================[Endpoints]=====================================")
 endpoints_ = {}
