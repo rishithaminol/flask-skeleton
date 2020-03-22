@@ -4,6 +4,13 @@ import os, sys, json, re
 from dotenv import load_dotenv, dotenv_values
 load_dotenv()
 
+dirname = os.path.dirname(os.path.realpath(__file__))
+# include ./src into module search path
+sys.path.insert(0, os.path.join(dirname, 'src'))
+
+if dotenv_values()['DEBUG'] == 'True':
+	print(sys.path)
+
 from src import create_app
 from src.core import green_output
 from src.blueprints import load_blueprints
