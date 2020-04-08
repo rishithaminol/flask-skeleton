@@ -29,14 +29,15 @@ for key_, val_ in dotenv_values().items():
 # Loading additional blueprints
 load_blueprints(app)
 
-print("==================================[Endpoints]=====================================")
-endpoints_ = {}
-for rule in app.url_map.iter_rules():
-	endpoints_.update({rule.endpoint: {'rule': rule.rule, 'methods': list(rule.methods)}})
+if dotenv_values()['DEBUG'] == 'True':
+	print("==================================[Endpoints]=====================================")
+	endpoints_ = {}
+	for rule in app.url_map.iter_rules():
+		endpoints_.update({rule.endpoint: {'rule': rule.rule, 'methods': list(rule.methods)}})
 
-for key in sorted(endpoints_.keys()):
-	print(green_output(endpoints_[key]['rule']), endpoints_[key]['methods'], green_output(key))
-print("==================================[Endpoints]=====================================")
+	for key in sorted(endpoints_.keys()):
+		print(green_output(endpoints_[key]['rule']), endpoints_[key]['methods'], green_output(key))
+	print("==================================[Endpoints]=====================================")
 
 if __name__ == '__main__':
 	app.run(port=os.getenv('PORT'))
