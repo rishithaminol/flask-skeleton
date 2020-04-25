@@ -1,9 +1,10 @@
 import os
 
 from flask import Flask, render_template, send_from_directory
-from .login_manager import init_login, access_privilage
-from .db import db_session
-from .routes import user_login, app_deployment
+from src.login_manager import init_login, access_privilage
+from src.db import db_session
+from src.routes import user_login, app_deployment
+from src.core import common_response
 
 
 def create_app(test_config=None):
@@ -39,6 +40,14 @@ def create_app(test_config=None):
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         db_session.remove()
+
+    @app.errorhandler(404)
+    def _404(e):
+        return common_response(status=404, err_msg='Not Found')
+
+    @app.errorhandler(500)
+    def _404(e):
+        return common_response(status=500, err_msg='Internal server error')
 
     # Register all database interaction configs before return
     
