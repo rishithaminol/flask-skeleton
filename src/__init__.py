@@ -5,6 +5,7 @@ from src.login_manager import init_login, access_privilage
 from src.db import db_session
 from src.routes import user_login, app_deployment
 from src.core import common_response
+from src.flask_error_handlers import init_error_handler
 
 
 def create_app(test_config=None):
@@ -41,13 +42,8 @@ def create_app(test_config=None):
     def shutdown_session(exception=None):
         db_session.remove()
 
-    @app.errorhandler(404)
-    def _404(e):
-        return common_response(status=404, err_msg='Not Found')
-
-    @app.errorhandler(500)
-    def _404(e):
-        return common_response(status=500, err_msg='Internal server error')
+    # Flask error handlers section
+    init_error_handler(app)
 
     # Register all database interaction configs before return
     
