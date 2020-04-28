@@ -13,6 +13,10 @@ def init_error_handler(app):
         def _404(e):
             return common_response(status=404, err_msg='Not Found')
 
+        @app.errorhandler(405)
+        def _405(e):
+            return common_response(status=405, err_msg='Method not allowed')
+
         # http://werkzeug.pocoo.org/docs/0.14/exceptions/
         @app.errorhandler(Exception)
         def exception_handler(error):
