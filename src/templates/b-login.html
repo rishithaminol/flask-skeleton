@@ -1,19 +1,36 @@
-<body class="login-form">
-  <div class="container text-center">
-    <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+<body>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header">Login</div>
+            <div class="card-body">
+              <form method="POST" action="{{ url_for('user_login.sign_in', _external=True) }}">
+                <div class="form-group row justify-content-end">
+                  <label for="user_name" class="col-md-5 col-form-label text-md-right">E-Mail or Username</label>
+                  <div class="col-md-7">
+                    <input type="text" id="user_name" class="form-control" name="user_name" required autofocus>
+                  </div>
+                </div>
 
-    <form class="form-signin" method="POST" action="{{ url_for('user_login.sign_in', _external=True) }}">
-      <label for="user_name" class="sr-only">Email address</label>
-      <input type="text" id="user_name" name="user_name" class="form-control" placeholder="User Name" required autofocus>
-      <label for="password" class="sr-only">Password</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
+                <div class="form-group row justify-content-end">
+                  <label for="password" class="col-md-5 col-form-label text-md-right">Password</label>
+                  <div class="col-md-7">
+                    <input type="password" id="password" class="form-control" name="password" required>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3 offset-md-5">
+                    <button type="submit" class="btn btn-primary">
+                      Login
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
-    </form>
+    </div>
   </div>
 </body>
