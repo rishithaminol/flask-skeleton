@@ -3,7 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-<script src="{{ url_for('public', filepath='js/vendor/jquery3.min.js', _external=True, _scheme=config.URL_SCHEME) }}"></script>
+<script src="{{ url_for('public', filepath='js/vendor/jquery.min.js', _external=True, _scheme=config.URL_SCHEME) }}"></script>
 
 {% if config.UI_SYSTEM == 'semantic' %}
     {# Semantic UI #}
@@ -20,8 +20,8 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% elif config.UI_SYSTEM == 'bootstrap4' %} {# Bootstrap4 #}
-    <script src="{{ url_for('public', filepath='js/vendor/bootstrap4/bootstrap.min.js', _external=True, _scheme=config.URL_SCHEME) }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('public', filepath='css/vendor/bootstrap4/bootstrap.min.css', _external=True, _scheme=config.URL_SCHEME) }}">
+    <script src="{{ url_for('public', filepath='js/vendor/bootstrap/bootstrap.min.js', _external=True, _scheme=config.URL_SCHEME) }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('public', filepath='css/vendor/bootstrap/bootstrap.min.css', _external=True, _scheme=config.URL_SCHEME) }}">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('public', filepath='css/b-style.css', _external=True, _scheme=config.URL_SCHEME) }}">
 {% endif %}
