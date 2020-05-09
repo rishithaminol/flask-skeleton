@@ -3,7 +3,7 @@ from flask_login import LoginManager, UserMixin, \
 						login_user, \
 						current_user, login_required
 from functools import wraps
-from .core import check_user_credentials, gen_user_pass_hash, get_user_data
+from .core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
 from .menu_nav import al_separation
 
 # silly user model (create 'current_user' object)
@@ -48,11 +48,7 @@ def access_privilage(func):
         if found_:
             return func(*args, **kwargs)
         else:
-            respon_obj = {
-                'status': 401,
-                'message': 'Access level unauthorized'
-            }
-            return jsonify(respon_obj), respon_obj['status']
+            return common_response(status=401, err_msg='Access level unauthorized')
 
     return decorated_view
 
