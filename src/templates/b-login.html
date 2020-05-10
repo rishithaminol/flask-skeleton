@@ -6,6 +6,14 @@
             <div class="card-header">Login</div>
             <div class="card-body">
               <form method="POST" action="{{ url_for('user_login.sign_in', _external=True) }}">
+                {% if data.login_failure %}
+                <div class="row mx-0">
+                  <div class="alert alert-danger col" role="alert">
+                    {{ data.message }}
+                  </div>
+                </div>
+                {% endif %}
+
                 <div class="form-group row justify-content-end">
                   <label for="user_name" class="col-md-5 col-form-label text-md-right">E-Mail or Username</label>
                   <div class="col-md-7">
