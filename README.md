@@ -31,3 +31,4 @@ How to run on production
 6. `scripts/flask_skeleton.service` systemd unit file can be used to start the application on system reboots. All you have to do is change the configurations, path names and ownerships in that file.
 7. Change the ownership of entire directory to the user specified in `uwsgi.ini` or `scripts/flask_skeleton.service`.
 8. If `systemd` unit file rejects the execution of `uwsgi`, You can set all the `uwsgi` configurations inside that systemd unit file.
+9. As a security strategy please send `nginx` or `apache` request ID in the header `X-Request-Id` to the upstream backend.
