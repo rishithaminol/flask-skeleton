@@ -17,6 +17,7 @@ class User(UserMixin):
             self.id = id_
             self.name = str(id_)
             self.access_level = x.access_level
+            self.id_user = x.id_ # User's id number according to the database
         except:
             self.malfunction = True
             self._is_authenticated = False
