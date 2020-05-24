@@ -1,10 +1,10 @@
 from flask import request, redirect, render_template, _request_ctx_stack, jsonify
-from flask_login import LoginManager, UserMixin, \
+from src.flask_login import LoginManager, UserMixin, \
 						login_user, \
 						current_user, login_required
 from functools import wraps
-from .core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
-from .menu_nav import al_separation
+from src.core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
+from src.menu_nav import al_separation
 
 # silly user model (create 'current_user' object)
 class User(UserMixin):
