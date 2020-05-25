@@ -5,24 +5,25 @@ from src.flask_login import LoginManager, UserMixin, \
 from functools import wraps
 from src.core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
 from src.menu_nav import al_separation
+import datetime
 
 # silly user model (create 'current_user' object)
 class User(UserMixin):
-    def __init__(self, id_):
+    def __init__(self, id_, session_id=None):
         self.malfunction = False
         self._is_authenticated = True
 
-        try:
-            x = get_user_data(id_)
+        x = get_user_data(id_, session_id)
+        if x:
             self.id = id_
             self.name = str(id_)
-            self.access_level = x.access_level
-            self.id_user = x.id_ # User's id number according to the database
-        except:
+            self.access_level = x[3]
+            self.id_user = x[0] # User's id number according to the database
+            self.session_id = x[4]
+            self.expire = x[5]
+        else:
             self.malfunction = True
             self._is_authenticated = False
-
-        if self.malfunction:
             print("====== Malfunction occured =====")
 
     @property
@@ -60,8 +61,14 @@ def init_login(app):
     login_manager.login_view = "user_login.sign_in" # see methodname user_login_():
 
     @login_manager.user_loader
-    def load_user(userid):
-        x = User(userid)
+    def load_user(userid, session_id):
+        x = User(userid, session_id)
+        now = datetime.datetime.utcnow().timestamp()
+
         if x.malfunction:
             return None
         return x
+
+    @login_manager.unauthorized_handler
+    def unauth_handler():
+        return redirect('/user/login')

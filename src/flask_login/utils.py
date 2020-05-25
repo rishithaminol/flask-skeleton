@@ -20,6 +20,9 @@ from ._compat import text_type, urlparse, urlunparse
 from .config import COOKIE_NAME, EXEMPT_METHODS
 from .signals import user_logged_in, user_logged_out, user_login_confirmed
 
+'''rishithaminol@gmail.com customization'''
+from src.db import db_session, SessionData
+import datetime
 
 #: A proxy for the current user. If no user is logged in, this will be an
 #: anonymous user
@@ -172,7 +175,7 @@ def login_user(user, remember=False, duration=None, force=False, fresh=True):
     user_id = getattr(user, current_app.login_manager.id_attribute)()
     session['_user_id'] = user_id
     session['_fresh'] = fresh
-    session['_id'] = current_app.login_manager._session_identifier_generator()
+    session['_id'] = current_app.login_manager._session_identifier_generator(user_id=user_id)
 
     if remember:
         session['_remember'] = 'set'
@@ -366,15 +369,35 @@ def _get_remote_addr():
     return address
 
 
-def _create_identifier():
+def _create_identifier(user_id=None):
     user_agent = request.headers.get('User-Agent')
+    utcnow = datetime.datetime.utcnow()
     if user_agent is not None:
         user_agent = user_agent.encode('utf-8')
-    base = '{0}|{1}'.format(_get_remote_addr(), user_agent)
+    base = '{0}|{1}|{2}'.format(_get_remote_addr(), user_agent, utcnow.timestamp())
     if str is bytes:
         base = text_type(base, 'utf-8', errors='replace')  # pragma: no cover
     h = sha512()
     h.update(base.encode('utf8'))
+
+    '''
+    Store all user data in the database in order to manipulate multiple user
+    sessions
+    '''
+    if user_agent is None:
+        user_agent = 'unknown'
+    ds = db_session()
+
+    id_user = ds.execute("""SELECT id_ FROM user_data WHERE name = :name""", {
+        "name": user_id
+    }).first()[0]
+    x = SessionData(id_user=id_user, user_agent=user_agent.decode(), ip=_get_remote_addr().decode(),
+                        time=utcnow, expire=utcnow + datetime.timedelta(days=3),
+                        session_id=h.hexdigest())
+    ds.add(x)
+    ds.commit()
+    ds.close()
+
     return h.hexdigest()
 
 

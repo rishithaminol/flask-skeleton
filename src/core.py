@@ -12,9 +12,40 @@ def gen_user_pass_hash(password):
 
 # Mostly needed by UserMixin in server.py
 # this function is called on every request
-def get_user_data(user_name):
-	x = db_session.query(UserData).\
-			filter(UserData.name == user_name).first()
+def get_user_data(user_name, session_id):
+	ds = db_session()
+
+	if session_id:
+		sql = '''
+			SELECT
+				user_data.id_,
+				user_data.name,
+				user_data.password,
+				user_data.access_level,
+				session_data.session_id,
+				session_data.expire,
+				session_data.time
+			FROM user_data
+			LEFT JOIN session_data ON user_data.id_ = session_data.id_user
+			WHERE session_id = :session_id AND session_data.expire > NOW()
+		'''
+	else:
+		sql = '''
+			SELECT
+				user_data.id_,
+				user_data.name,
+				user_data.password,
+				user_data.access_level,
+				null,
+				null,
+				null
+			FROM user_data
+		'''
+
+	x = ds.execute(sql, {
+		"session_id": session_id
+	}).first()
+
 	return x
 
 # Pay deep attention about this function in order to avoid
