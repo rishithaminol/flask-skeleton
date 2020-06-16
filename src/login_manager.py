@@ -1,6 +1,6 @@
 from flask import request, redirect, render_template, _request_ctx_stack, jsonify
 from src.flask_login import LoginManager, UserMixin, \
-						login_user, \
+						login_user, logout_user, \
 						current_user, login_required
 from functools import wraps
 from src.core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
@@ -12,6 +12,7 @@ class User(UserMixin):
     def __init__(self, id_, session_id=None):
         self.malfunction = False
         self._is_authenticated = True
+        self._is_zombie = False
 
         x = get_user_data(id_, session_id)
         if x:
@@ -24,6 +25,10 @@ class User(UserMixin):
         else:
             self.malfunction = True
             self._is_authenticated = False
+
+            # Still active session even if database end the session
+            if len(session_id) > 0 or len(id_) > 0:
+                self._is_zombie = True
             print("====== Malfunction occured =====")
 
     @property
@@ -59,11 +64,14 @@ def init_login(app):
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = "user_login.sign_in" # see methodname user_login_():
+    login_manager.session_protection = "none"
 
     @login_manager.user_loader
     def load_user(userid, session_id):
         x = User(userid, session_id)
-        now = datetime.datetime.utcnow().timestamp()
+
+        if x._is_zombie:
+            return x
 
         if x.malfunction:
             return None

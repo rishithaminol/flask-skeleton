@@ -23,6 +23,7 @@ from .signals import user_logged_in, user_logged_out, user_login_confirmed
 '''rishithaminol@gmail.com customization'''
 from src.db import db_session, SessionData
 import datetime
+from src.core import logout_session
 
 #: A proxy for the current user. If no user is logged in, this will be an
 #: anonymous user
@@ -210,6 +211,8 @@ def logout_user():
         session.pop('_fresh')
 
     if '_id' in session:
+        if hasattr(user, 'session_id'):
+            logout_session(user.session_id)
         session.pop('_id')
 
     cookie_name = current_app.config.get('REMEMBER_COOKIE_NAME', COOKIE_NAME)
@@ -390,13 +393,15 @@ def _create_identifier(user_id=None):
 
     id_user = ds.execute("""SELECT id_ FROM user_data WHERE name = :name""", {
         "name": user_id
-    }).first()[0]
-    x = SessionData(id_user=id_user, user_agent=user_agent.decode(), ip=_get_remote_addr().decode(),
-                        time=utcnow, expire=utcnow + datetime.timedelta(days=3),
-                        session_id=h.hexdigest())
-    ds.add(x)
-    ds.commit()
-    ds.close()
+    }).first()
+
+    if id_user is not None:
+        x = SessionData(id_user=id_user[0], user_agent=user_agent.decode(), ip=_get_remote_addr().decode(),
+                            time=utcnow, expire=utcnow + datetime.timedelta(days=3),
+                            session_id=h.hexdigest())
+        ds.add(x)
+        ds.commit()
+        ds.close()
 
     return h.hexdigest()
 

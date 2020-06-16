@@ -7,7 +7,7 @@ ORGANIZATION_NAME="Flask Skeleton"
 #   * bootstrap4
 UI_SYSTEM="bootstrap4"
 
-SERVER_LOG="/var/log/maavee-mail-api/apitrace.log"
+SERVER_LOG="./apitrace.log"
 
 # Application Version
 APPLICATION_VERSION="0.0.6"

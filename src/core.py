@@ -106,3 +106,32 @@ def common_response(data=None, status=200, message=None, err_msg=None):
         comm_respon['err_msg'] = err_msg
 
     return json.dumps(comm_respon), comm_respon['status'], {'Content-Type': JSON_MIME_TYPE}
+
+# Log out specific user from all of it's sessions
+def logout_all_sessions(id_user):
+	ds = db_session()
+
+	sql = '''
+		UPDATE session_data
+		SET expire = TIMESTAMP '2004-10-19 10:23:54'
+		WHERE id_user = :id_user;
+	'''
+	ds.execute(sql, {
+		"id_user": id_user
+	})
+	ds.commit()
+	ds.close()
+
+def logout_session(session_id):
+	ds = db_session()
+
+	sql = '''
+		UPDATE session_data
+		SET expire = TIMESTAMP '2004-10-19 10:23:54'
+		WHERE session_id = :session_id;
+	'''
+	ds.execute(sql, {
+		"session_id": session_id
+	})
+	ds.commit()
+	ds.close()

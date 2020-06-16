@@ -32,6 +32,9 @@ def sign_in():
             data['login_failure'] = True
             data['response_code'] = 401
 
+    if hasattr(current_user, '_is_zombie') and current_user._is_zombie:
+        logout_user()
+
     if current_user.is_authenticated:
         return redirect('/')
 
