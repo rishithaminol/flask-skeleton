@@ -40,10 +40,12 @@ def get_user_data(user_name, session_id):
 				null,
 				null
 			FROM user_data
+			WHERE user_data.name = :name
 		'''
 
 	x = ds.execute(sql, {
-		"session_id": session_id
+		"session_id": session_id,
+		"name": user_name
 	}).first()
 
 	return x
