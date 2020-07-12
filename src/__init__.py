@@ -38,6 +38,14 @@ def create_app(test_config=None):
     def public(filepath):
         return send_from_directory(assets_dir, filepath)
 
+    @app.after_request
+    def fake_response_headers(response):
+        # Fake response headers
+        response.headers["Server"] = "Microsoft-IIS/8.5"
+        response.headers["X-AspNet-Version"] = "4.0.30319"
+        response.headers["X-Powered-By"] = "ASP.NET"
+        return response
+
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         db_session.remove()
