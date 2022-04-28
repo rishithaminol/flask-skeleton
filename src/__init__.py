@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 from src.login_manager import init_login, access_privilage
 from src.db import db_session
 from src.routes import user_login, app_deployment
@@ -33,6 +33,12 @@ def create_app(test_config=None):
     @access_privilage
     def index():
         return render_template('index.html')
+
+    @app.route('/robots.txt', methods=['GET'])
+    @app.route('/sitemap.xml', methods=['GET'])
+    def seo():
+        print(request.path[1:])
+        return send_from_directory(assets_dir, request.path[1:])
 
     @app.route('/public/<path:filepath>')
     def public(filepath):
