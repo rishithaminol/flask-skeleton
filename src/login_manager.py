@@ -5,7 +5,8 @@ from src.flask_login import LoginManager, UserMixin, \
 from functools import wraps
 from src.core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
 from src.menu_nav import al_separation
-import datetime
+from src.log_manager import CreateLogger
+log_ = CreateLogger(__name__, './login_manager.log')
 
 # silly user model (create 'current_user' object)
 class User(UserMixin):
@@ -29,7 +30,7 @@ class User(UserMixin):
             # Still active session even if database end the session
             if len(session_id) > 0 or len(id_) > 0:
                 self._is_zombie = True
-            print("====== Malfunction occured =====")
+            log_.warning("Session handling mis alignment")
 
     @property
     def is_authenticated(self):
