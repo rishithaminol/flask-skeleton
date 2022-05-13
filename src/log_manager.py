@@ -43,7 +43,7 @@ class CreateLogger:
 		f_handler.setLevel(logging.ERROR)
 
 		# Create formatters and add it to handlers
-		c_format = MyFormatter('%(name)s - %(levelname)s - %(message)s')
+		c_format = MyFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 		f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 		sysl_format = logging.Formatter('sentinel-logger: %(message)s')
 		c_handler.setFormatter(c_format)
