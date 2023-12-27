@@ -353,15 +353,19 @@ class LoginManager:
         user_accessed.send(current_app._get_current_object())
 
         # Check SESSION_PROTECTION
-        if self._session_protection_failed():
+        '''rishithaminol@gmail.com customization'''
+        if self._session_protection_failed(session.get("_user_id")):
             return self._update_request_context_with_user()
 
         user = None
 
+        '''rishithaminol@gmail.com customization'''
         # Load user from Flask Session
         user_id = session.get("_user_id")
-        if user_id is not None and self._user_callback is not None:
-            user = self._user_callback(user_id)
+        session_id = session.get("_id")
+        if user_id is not None and session_id is not None:
+            if self._user_callback is not None:
+                user = self._user_callback(user_id, session_id)
 
         # Load user from Remember Me Cookie or Request Loader
         if user is None:
@@ -382,15 +386,17 @@ class LoginManager:
 
         return self._update_request_context_with_user(user)
 
-    def _session_protection_failed(self):
-        sess = session._get_current_object()
-        ident = self._session_identifier_generator()
-
+    '''rishithaminol@gmail.com customization'''
+    def _session_protection_failed(self, user_id):
         app = current_app._get_current_object()
         mode = app.config.get("SESSION_PROTECTION", self.session_protection)
 
         if not mode or mode not in ["basic", "strong"]:
             return False
+
+        '''rishithaminol@gmail.com customization'''
+        sess = session._get_current_object()
+        ident = self._session_identifier_generator(user_id=user_id)
 
         # if the sess is empty, it's an anonymous user or just logged out
         # so we can skip this
@@ -417,7 +423,8 @@ class LoginManager:
             session["_fresh"] = False
             user = None
             if self._user_callback:
-                user = self._user_callback(user_id)
+                '''rishithaminol@gmail.com customization'''
+                user = self._user_callback(user_id, session.get("_id"))
             if user is not None:
                 app = current_app._get_current_object()
                 user_loaded_from_cookie.send(app, user=user)

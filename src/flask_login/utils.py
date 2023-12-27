@@ -20,6 +20,12 @@ from .signals import user_logged_in
 from .signals import user_logged_out
 from .signals import user_login_confirmed
 
+'''rishithaminol@gmail.com customization'''
+from src.db import db_session, SessionData
+import datetime
+from src.core import logout_session
+from sqlalchemy.sql import text
+
 #: A proxy for the current user. If no user is logged in, this will be an
 #: anonymous user
 current_user = LocalProxy(lambda: _get_user())
@@ -183,7 +189,8 @@ def login_user(user, remember=False, duration=None, force=False, fresh=True):
     user_id = getattr(user, current_app.login_manager.id_attribute)()
     session["_user_id"] = user_id
     session["_fresh"] = fresh
-    session["_id"] = current_app.login_manager._session_identifier_generator()
+    '''rishithaminol@gmail.com customization'''
+    session['_id'] = current_app.login_manager._session_identifier_generator(user_id=user_id)
 
     if remember:
         session["_remember"] = "set"
@@ -219,6 +226,9 @@ def logout_user():
         session.pop("_fresh")
 
     if "_id" in session:
+        '''rishithaminol@gmail.com customization'''
+        if hasattr(user, "session_id"):
+            logout_session(user.session_id)
         session.pop("_id")
 
     cookie_name = current_app.config.get("REMEMBER_COOKIE_NAME", COOKIE_NAME)
@@ -388,16 +398,38 @@ def _get_remote_addr():
         address = address.encode("utf-8").split(b",")[0].strip()
     return address
 
-
-def _create_identifier():
+'''rishithaminol@gmail.com customization'''
+def _create_identifier(user_id=None):
     user_agent = request.headers.get("User-Agent")
+    utcnow = datetime.datetime.utcnow()
     if user_agent is not None:
         user_agent = user_agent.encode("utf-8")
-    base = f"{_get_remote_addr()}|{user_agent}"
+    base = '{0}|{1}|{2}'.format(_get_remote_addr(), user_agent, utcnow.timestamp())
     if str is bytes:
         base = str(base, "utf-8", errors="replace")  # pragma: no cover
     h = sha512()
     h.update(base.encode("utf8"))
+
+    """
+    Store all user data in the database in order to manipulate multiple user
+    sessions
+    """
+    if user_agent is None:
+        user_agent = 'unknown'
+    ds = db_session()
+
+    id_user = ds.execute(text("""SELECT id_ FROM user_data WHERE name = :name"""), {
+        "name": user_id
+    }).first()
+
+    if id_user is not None:
+        x = SessionData(id_user=id_user[0], user_agent=user_agent.decode(), ip=_get_remote_addr().decode(),
+                            time=utcnow, expire=utcnow + datetime.timedelta(days=3),
+                            session_id=h.hexdigest())
+        ds.add(x)
+        ds.commit()
+        ds.close()
+
     return h.hexdigest()
 
 

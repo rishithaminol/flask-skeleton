@@ -1,5 +1,38 @@
 https://flask.palletsprojects.com/en/1.1.x/tutorial/views/
 
+Setup Procedure
+===============
+Since Python has complex package handling procedure we provide manual installation of main library components because of pip locks dependancies as well (Which breaks things in future when `pypi` update dependancies for main libraries). In this repository `requirements.txt` file is provided. If something breaks years from now please ignore `requirements.txt` file and follow the manual procedure below.
+
+Here we specify all the main components used to develop the project so when an installation happens all compatible dependancies will also get updated automatically.
+
+    pip install Flask==3.0.0            # Upgraded
+    pip install alembic==1.13.1         # Upgraded
+    pip install python-dotenv==0.10.3
+    pip install colored==1.4.2
+    pip install psycopg2==2.9.9         # Upgraded
+    pip install uwsgi==2.0.23           # Upgraded
+
+Configure database credentials in .env file
+
+    DATA_SOURCE=postgres://flask_user:123@127.0.0.1:5432/flask_skel
+
+Propergate the latest database using alembic (https://alembic.sqlalchemy.org/en/latest/tutorial.html)
+
+    alembic check
+    alembic upgrade head
+
+Setup frontend JS/CSS UI components
+
+    # Install LTS version of nodejs (At the time of writing this 20)
+    npm install
+    npm run build-css
+
+The above command `build-css` will generate required css files based on scss templates residing within `src/public/scss` directory.
+
+    # Run below script
+    ./server.py
+
 Scripts directory
 ==================
 Scripts in this directory should be used to manage the skeleton.
