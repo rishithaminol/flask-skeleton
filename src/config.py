@@ -2,10 +2,10 @@ ORGANIZATION_NAME="Flask Skeleton"
 
 #
 # UI system to be used
-#   * semantic
+#   * semantic (fomantic-ui)
 #   * materialize
-#   * bootstrap4
-UI_SYSTEM="bootstrap4"
+#   * bootstrap
+UI_SYSTEM="bootstrap"
 
 SERVER_LOG="./apitrace.log"
 

@@ -1,4 +1,4 @@
-from flask import request, redirect, render_template, _request_ctx_stack, jsonify
+from flask import request, redirect
 from src.flask_login import LoginManager, UserMixin, \
 						login_user, logout_user, \
 						current_user, login_required

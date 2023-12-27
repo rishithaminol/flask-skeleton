@@ -6,7 +6,7 @@ import os
 
 db_link = os.getenv('DATA_SOURCE')
 
-engine = create_engine(db_link, convert_unicode=True)
+engine = create_engine(db_link, client_encoding='utf8')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))

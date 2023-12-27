@@ -1,5 +1,6 @@
 import hashlib, json
 from colored import fg, bg, attr
+from sqlalchemy.sql import text
 
 from src.db import db_session, UserData
 
@@ -16,7 +17,7 @@ def get_user_data(user_name, session_id):
 	ds = db_session()
 
 	if session_id:
-		sql = '''
+		sql = text('''
 			SELECT
 				user_data.id_,
 				user_data.name,
@@ -28,9 +29,9 @@ def get_user_data(user_name, session_id):
 			FROM user_data
 			LEFT JOIN session_data ON user_data.id_ = session_data.id_user
 			WHERE session_id = :session_id AND session_data.expire > NOW()
-		'''
+		''')
 	else:
-		sql = '''
+		sql = text('''
 			SELECT
 				user_data.id_,
 				user_data.name,
@@ -41,7 +42,7 @@ def get_user_data(user_name, session_id):
 				null
 			FROM user_data
 			WHERE user_data.name = :name
-		'''
+		''')
 
 	x = ds.execute(sql, {
 		"session_id": session_id,
@@ -113,11 +114,11 @@ def common_response(data=None, status=200, message=None, err_msg=None):
 def logout_all_sessions(id_user):
 	ds = db_session()
 
-	sql = '''
+	sql = text('''
 		UPDATE session_data
 		SET expire = TIMESTAMP '2004-10-19 10:23:54'
 		WHERE id_user = :id_user;
-	'''
+	''')
 	ds.execute(sql, {
 		"id_user": id_user
 	})
@@ -127,11 +128,11 @@ def logout_all_sessions(id_user):
 def logout_session(session_id):
 	ds = db_session()
 
-	sql = '''
+	sql = text('''
 		UPDATE session_data
 		SET expire = TIMESTAMP '2004-10-19 10:23:54'
 		WHERE session_id = :session_id;
-	'''
+	''')
 	ds.execute(sql, {
 		"session_id": session_id
 	})

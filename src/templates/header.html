@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('public', filepath='css/m-style.css', _external=True, _scheme=config.URL_SCHEME) }}"> {# Materialized #}
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-{% elif config.UI_SYSTEM == 'bootstrap4' %} {# Bootstrap4 #}
+{% elif config.UI_SYSTEM == 'bootstrap' %}
     <script src="{{ url_for('public', filepath='js/vendor/bootstrap/bootstrap.min.js', _external=True, _scheme=config.URL_SCHEME) }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('public', filepath='css/vendor/bootstrap/bootstrap.min.css', _external=True, _scheme=config.URL_SCHEME) }}">
 
