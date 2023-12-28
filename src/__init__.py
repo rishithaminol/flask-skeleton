@@ -1,10 +1,8 @@
 import os
 
-from flask import Flask, render_template, send_from_directory, request
-from src.login_manager import init_login, access_privilage
+from flask import Flask, send_from_directory, request
+from src.login_manager import init_login
 from src.db import db_session
-from src.routes import user_login, app_deployment
-from src.core import common_response
 from src.flask_error_handlers import init_error_handler
 
 
@@ -16,7 +14,8 @@ def create_app(test_config=None):
 
     # create and configure the app
     app = Flask(__name__, template_folder=template_dir,
-                            instance_path=base_dir)
+                            instance_path=base_dir,
+                            static_folder=None)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -26,13 +25,6 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     init_login(app)
-
-    # Register all routes before return
-    # a simple page that says hello
-    @app.route('/', methods=['GET'])
-    @access_privilage
-    def index():
-        return render_template('index.html')
 
     @app.route('/robots.txt', methods=['GET'])
     @app.route('/sitemap.xml', methods=['GET'])

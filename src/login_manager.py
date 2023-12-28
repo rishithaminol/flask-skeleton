@@ -1,9 +1,8 @@
 from flask import request, redirect
 from src.flask_login import LoginManager, UserMixin, \
-						login_user, logout_user, \
 						current_user, login_required
 from functools import wraps
-from src.core import check_user_credentials, gen_user_pass_hash, get_user_data, common_response
+from src.core import get_user_data, common_response
 from src.menu_nav import al_separation
 from src.log_manager import CreateLogger
 log_ = CreateLogger(__name__, './login_manager.log')

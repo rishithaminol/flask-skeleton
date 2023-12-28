@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, \
-                   request, jsonify, session, redirect, url_for
+from flask import Blueprint, request
 from src.core import common_response
 
 app_deployment = Blueprint('app_deployment', __name__, url_prefix='/codedeployment')

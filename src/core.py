@@ -1,5 +1,5 @@
 import hashlib, json
-from colored import fg, bg, attr
+from colored import fg, attr
 from sqlalchemy.sql import text
 
 from src.db import db_session, UserData

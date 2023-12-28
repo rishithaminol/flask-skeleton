@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, \
-                   request, jsonify, session, redirect, url_for
-from src.flask_login import login_required, login_user, logout_user, current_user
-from src.login_manager import access_privilage, User
+                   request, redirect, url_for
+from src.flask_login import login_user, logout_user, current_user
+from src.login_manager import User
 from src.core import gen_user_pass_hash, check_user_credentials
 
 user_login = Blueprint('user_login', __name__, url_prefix='/user')

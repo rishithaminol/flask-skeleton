@@ -1,6 +1,6 @@
 import logging, os
 from logging.handlers import SysLogHandler
-from colored import fg, bg, attr
+from colored import fg, attr
 
 """Tutorials Helped
 https://stackoverflow.com/questions/14844970/modifying-logging-message-format-based-on-message-logging-level-in-python3

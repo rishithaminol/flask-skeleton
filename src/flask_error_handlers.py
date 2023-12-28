@@ -1,5 +1,5 @@
 import os, traceback
-from flask import render_template, request
+from flask import request
 from src.log_manager import CreateLogger
 from src.core import common_response
 
