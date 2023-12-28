@@ -1,2 +1,3 @@
 # When you perform fomantic-ui based changes. You have to ignore root fomantic UI source code directory
 Fomantic-UI/**
+fomantic-ui/**
