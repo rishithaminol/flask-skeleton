@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "node-sass --source-map true --output-style compressed --watch src/public/scss -o src/public/css",
-    "build-css": "node-sass src/public/scss -o src/public/css"
+    "watch": "sass --style compressed --watch src/public/scss:src/public/css",
+    "build-css": "sass src/public/scss:src/public/css"
   },
   "author": "Rishitha Minol <rishithaminol@gmail.com>",
   "license": "ISC",
@@ -16,7 +16,6 @@
     "feather-icons": "^4.28.0",
     "fomantic-ui": "^2.9.3",
     "jquery": "^3.7.1",
-    "materialize-css": "^1.0.0",
-    "node-sass": "^9.0.0"
+    "sass": "^1.77.4"
   }
 }
