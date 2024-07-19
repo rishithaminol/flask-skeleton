@@ -8,7 +8,7 @@ dirname = os.path.dirname(os.path.realpath(__file__))
 # include ./src into module search path
 sys.path.insert(0, os.path.join(dirname, 'src'))
 
-if dotenv_values()['DEBUG'] == 'True':
+if os.getenv('DEBUG') == 'True':
 	print(sys.path)
 
 from src import create_app
@@ -29,7 +29,7 @@ for key_, val_ in dotenv_values().items():
 # Loading additional blueprints
 load_blueprints(app)
 
-if dotenv_values()['DEBUG'] == 'True':
+if os.getenv('DEBUG') == 'True':
 	print("==================================[Endpoints]=====================================")
 	endpoints_ = {}
 	for rule in app.url_map.iter_rules():
