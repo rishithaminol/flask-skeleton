@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+alembic = "*"
+python-dotenv = "*"
+colored = "*"
+psycopg = {extras = ["binary"], version = "*"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
